@@ -1,0 +1,218 @@
+<% layout("/layouts/boilerplate") %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+
+<style>
+  #filters-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+    background-color: white;
+    padding: 0.6rem 1rem;
+    position: relative;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .scroll-section {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    max-width: 65%;
+    position: relative;
+  }
+
+  .scroll-categories {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 0 2rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .scroll-categories::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter {
+    flex: 0 0 auto;
+    text-align: center;
+    font-size: 0.75rem;
+    opacity: 0.8;
+    width: 70px;
+    white-space: nowrap;
+  }
+
+  .filter:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  .filter i {
+    font-size: 1.3rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .arrow-btn {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    flex-shrink: 0;
+  }
+
+  .right-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .filter-dropdown .dropdown-menu {
+    border-radius: 1rem;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    width: 300px;
+  }
+
+  .filter-dropdown .dropdown-item {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+  }
+
+  .filter-dropdown .dropdown-item:hover {
+    background-color: #f8f9fa;
+  }
+
+  .tax-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: 1px solid #ccc;
+    padding: 0.4rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.78rem;
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  .tax-info {
+    display: none;
+  }
+</style>
+
+<!-- FILTER BAR -->
+<div id="filters-wrapper">
+  <!-- Scrollable categories with arrows -->
+  <div class="scroll-section">
+    <div class="arrow-btn arrow-left" onclick="scrollFilters(-200)">
+      <i class="fas fa-chevron-left"></i>
+    </div>
+
+    <div class="scroll-categories" id="filters">
+      <div class="filter"><i class="fas fa-fire"></i><p>Trending</p></div>
+      <div class="filter"><i class="fas fa-mountain"></i><p>Mountains</p></div>
+      <div class="filter"><i class="fas fa-city"></i><p>Cities</p></div>
+      <div class="filter"><i class="fas fa-bed"></i><p>Rooms</p></div>
+      <div class="filter"><i class="fas fa-landmark"></i><p>Castles</p></div>
+      <div class="filter"><i class="fas fa-snowflake"></i><p>Arctic</p></div>
+      <div class="filter"><i class="fas fa-campground"></i><p>Camping</p></div>
+      <div class="filter"><i class="fas fa-tractor"></i><p>Farms</p></div>
+      <div class="filter"><i class="fas fa-water"></i><p>Lakefront</p></div>
+      <div class="filter"><i class="fas fa-tree"></i><p>Parks</p></div>
+      <div class="filter"><i class="fas fa-umbrella-beach"></i><p>Beach</p></div>
+      <div class="filter"><i class="fas fa-drumstick-bite"></i><p>Foodie</p></div>
+      <div class="filter"><i class="fas fa-person-hiking"></i><p>Hiking</p></div>
+      <div class="filter"><i class="fas fa-hotel"></i><p>Hotels</p></div>
+      <div class="filter"><i class="fas fa-bath"></i><p>Baths</p></div>
+      <div class="filter"><i class="fas fa-mug-hot"></i><p>Tea</p></div>
+    </div>
+
+    <div class="arrow-btn arrow-right" onclick="scrollFilters(200)">
+      <i class="fas fa-chevron-right"></i>
+    </div>
+  </div>
+
+  <!-- Right Controls -->
+  <div class="right-controls ms-3">
+    <!-- Dropdown -->
+    <div class="dropdown filter-dropdown">
+      <button class="filter-button dropdown-toggle btn btn-outline-dark px-3 py-2"
+        type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-sliders"></i> Filters
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><a class="dropdown-item" href="#">Price range</a></li>
+        <li><a class="dropdown-item" href="#">Rooms & Beds</a></li>
+        <li><a class="dropdown-item" href="#">Property Type</a></li>
+        <li><a class="dropdown-item" href="#">Amenities</a></li>
+        <li><a class="dropdown-item" href="#">Cancellation policy</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Tax toggle -->
+  <div class="tax-toggle ms-2">
+    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" />
+    <label class="form-check-label" for="flexSwitchCheckDefault">
+      Display total after taxes
+    </label>
+  </div>
+</div>
+
+<!-- LISTINGS -->
+<div class="container mt-3">
+  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4">
+    <% for (let listing of allListings) { %>
+    <div class="col">
+      <div class="card h-100 position-relative listing-card" style="cursor: pointer">
+        <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" />
+        <div class="card-img-overlay"></div>
+        <div class="card-body">
+          <h5 class="card-title"><b><%= listing.title %></b></h5>
+          <p class="card-text"><%= listing.description %></p>
+          <a href="/listings/<%= listing._id %>" class="stretched-link"></a>
+          <ul class="list-group list-group-flush mt-2">
+            <li class="list-group-item">
+              Price: ₹<%= listing.price.toLocaleString("en-IN") %>
+              <i class="tax-info">&nbsp;+18% GST</i>
+            </li>
+            <li class="list-group-item">Country: <%= listing.country %></li>
+            <li class="list-group-item">Location: <%= listing.location %></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <% } %>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function scrollFilters(amount) {
+    const container = document.getElementById("filters");
+    container.scrollBy({ left: amount, behavior: "smooth" });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    document
+      .getElementById("flexSwitchCheckDefault")
+      .addEventListener("click", () => {
+        let taxInfo = document.getElementsByClassName("tax-info");
+        for (let info of taxInfo) {
+          info.style.display = info.style.display !== "inline" ? "inline" : "none";
+        }
+      });
+  });
+</script>
+
