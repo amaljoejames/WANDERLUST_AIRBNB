@@ -16,7 +16,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("./models/user.js");
 const userRouter= require("./routes/user.js");
-const dburl= process.env.ATLASDB_URL;
+const dburl= "mongodb://127.0.0.1:27017/test";
 async function main(){
     await mongoose.connect(dburl); 
 }
